@@ -1,0 +1,71 @@
+<mat-card class="demo-card demo-basic">
+  <mat-card-content>
+    <div fxLayout="row"
+         fxLayoutGap="50px">
+        <form fxLayout="column"
+              fxLayoutAlign="start stretch"
+              fxFlex="1 2 70%"
+              fxLayoutGap="30px"
+              [formGroup]="form" (ngSubmit) = "onFormSubmit(form.value)">
+           <input type="hidden"  formControlName="id">
+           <div fxLayout="column"
+                fxLayoutGap="30px">          
+
+               <mat-form-field fxFlexFill>
+                 <input matInput required placeholder="Section title" formControlName="title">
+               </mat-form-field>
+
+               <div class="component-create-box"
+                    fxLayout="column"
+                    formArrayName="components"
+                    *ngFor="let sectionComponent of form.get('components').controls; let i = index;">
+                <div [formGroupName]="i">
+                  <div  class="component-create-controls" fxFlexFill>
+                    <input type="number"  min="0" formControlName="componentWeight">
+                    <select (change)="switchComponentType(i)" formControlName="componentType">
+                      <option *ngFor="let type of componentTypes" [value]="type">{{ type }}</option>
+                    </select>
+                    <span (click)="removeComponent(i)"> Remove | {{sectionComponent.controls.componentType.value}}</span>
+                    <span (click)="addComponentBefore(i)"> | Add Before</span>
+                  </div>
+                  <mat-form-field *ngIf="sectionComponent.controls.componentType.value == null ||
+                                         sectionComponent.controls.componentType.value=='text'" fxFlexFill>
+                    <textarea  matInput
+                              matTextareaAutosize
+                              matAutosizeMaxRows="10"
+                              required placeholder="Description" formControlName="componentValue"></textarea>
+                  </mat-form-field>
+                  <div *ngIf="sectionComponent.controls.componentType.value=='file'">
+                    <input type="file" placeholder="Image" formControlName="componentValue">
+                  </div>
+                </div>
+              </div>
+               <!--mat-form-field fxFlexFill>
+                 <input type="text" matInput required (change)="onVideoLinkChange()" placeholder="Web link" formControlName="link">
+               </mat-form-field>
+               <div id="video-display"-->
+
+               <div fxLayout ="row"
+                    fxLayoutAlign="end end">
+                  <select (change)="addComponent()" id="compoent-builder" formControlName="componentAddType">
+                      <option value=null>Add Component</option>
+                      <option *ngFor="let type of componentTypes" [value]="type">{{ type }}</option>
+                  </select>
+                  <button type="submit" >Update</button>
+                  <button >Save</button>
+               </div>
+           </div>
+        </form>
+        <div fxLayout="column"
+             fxFlex="1 2 30%"
+             fxLayoutGap="20px">
+             <div class="page-title">
+               Chapters +
+             </div>
+             <div fxFlexFill>
+                Chapters list
+             </div>
+        </div>
+    </div>
+  </mat-card-content>
+</mat-card>

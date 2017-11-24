@@ -1,0 +1,78 @@
+<div fxLayout="row"
+     fxLayout.lt-sm="column"
+     fxLayoutGap="40px" class="dood">
+
+      <div fxLayout="column"
+           fxFlex="1 2 70%">
+          <router-outlet></router-outlet>
+     </div>
+     <div fxLayout="column"
+          fxFlex="1 2 30%"
+          fxLayoutGap="10px">
+
+         <form [formGroup]="form" (ngSubmit) = "onFormSubmit(form.value)" fxLayout="column">
+           <mat-form-field fxFlexFill>
+             <mat-select formControlName="displayContent" placeholder="" (change)="contentDisplaySwitcher()">
+               <mat-option *ngFor="let contentType of courseContentTypes" [value]="contentType">{{ contentType }}</mat-option>
+             </mat-select>
+           </mat-form-field>
+         </form>
+
+         <div fxLayout="column" [ngSwitch]="form.controls.displayContent.value">
+
+             <div *ngSwitchCase="'Video'"fxLayout="column"
+                  fxLayoutGap="20px">
+                  <div class="page-title">
+                    Playlist <a [routerLink]="['/course/', 18, 'course.title', 'content', 'video', 'new']">+</a>
+                  </div>
+                  <div fxLayout="column"
+                       fxLayoutGap="10px">
+                    <div fxLayout="row"
+                         fxLayoutGap="5px"
+                         *ngFor="let video of videoList">
+
+                      <img [routerLink]="['/course/', 18, 'course.title', 'content', 'video', 'get', video[0]]" src="{{splitURL(video[2])}}"/>
+                     <a [routerLink]="['/course/', 18, 'course.title', 'content', 'video', 'v', 'get', video[0]]"> {{ video[1] }} </a>
+
+                    </div>
+                  </div>
+             </div>
+
+             <div *ngSwitchCase="'Questions'" fxLayout="column"
+                  fxLayoutGap="20px">
+                  <div class="page-title">
+                    Questions <a [routerLink]="['/course/', 18, 'course.title', 'content', 'question', 'q', 'new']">+</a>
+                  </div>
+                  <div fxLayout="column"
+                       fxLayoutGap="10px">
+                    <div fxLayout="row"
+                         fxLayoutGap="5px"
+                         *ngFor="let question of questionList">
+
+                     <a [routerLink]="['/course/', 18, 'course.title', 'content', 'question', 'q', 'get', question[0]]"> {{ question[1] }} </a>
+
+                    </div>
+                  </div>
+             </div>
+
+             <div *ngSwitchCase="'Notes'"fxLayout="column"
+                  fxLayoutGap="20px">
+                  <div class="page-title">
+                    Sections <a [routerLink]="['/course/', 18, 'course.title', 'content', 'video', 'new']">+</a>
+                  </div>
+                  <div fxLayout="column"
+                       fxLayoutGap="10px">
+                    <div fxLayout="row"
+                         fxLayoutGap="5px"
+                         *ngFor="let video of videoList">
+
+                     <a [routerLink]="['/course/', 18, 'course.title', 'content', 'video', 'get', video[0]]"> {{ video[1] }} </a>
+
+                    </div>
+                  </div>
+             </div>
+          </div>
+
+
+      </div>
+</div>

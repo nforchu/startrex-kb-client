@@ -1,0 +1,63 @@
+<mat-card class="demo-card demo-basic">
+  <mat-card-content>
+    <div fxLayout="row"
+         fxLayoutAlign="end end">
+    </div>
+    <mat-tab-group>
+      <mat-tab *ngIf="chapter && chapter.id !== null" label="View">
+        <div fxLayout="column"
+             fxLayoutGap="10px">
+            <h3>{{chapter.title}}</h3>
+
+            <p>
+                {{chapter.description}}
+            </p>
+
+            <p>
+                {{chapter.prerequisite}}
+            </p>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{operation}}">
+        <form *ngIf="chapter != null" fxLayout="column"
+              fxLayoutAlign="start stretch"
+              fxLayoutGap="10px"
+              [formGroup]="form" (ngSubmit) = "onFormSubmit(form.value)">
+           <input type="text"  formControlName="id">
+           <mat-form-field fxFlexFill>
+             <input matInput required placeholder="Chapter" formControlName="title">
+           </mat-form-field>
+           <mat-form-field fxFlexFill>
+             <input type="number" matInput required placeholder="Weight" formControlName="weight">
+           </mat-form-field>
+           <mat-form-field fxFlexFill>
+             <textarea matInput
+                       matTextareaAutosize
+                       matAutosizeMaxRows="10"
+                       required placeholder="Description" formControlName="description"></textarea>
+           </mat-form-field>
+           <mat-form-field fxFlexFill>
+             <textarea matInput
+                       matTextareaAutosize
+                       matAutosizeMaxRows="5"
+                       placeholder="Prerequisite" formControlName="prerequisite"></textarea>
+           </mat-form-field>
+
+           <div *ngIf="course" fxLayout ="row" fxLayoutWrap fxLayoutGap="10">
+             <mat-checkbox *ngIf="course.hasText=='YES'" fxFlex="33" formControlName="hasText">Notes</mat-checkbox>
+             <mat-checkbox *ngIf="course.hasVideo=='YES'" fxFlex="33" formControlName="hasVideo">Video</mat-checkbox>
+             <mat-checkbox *ngIf="course.hasQuiz=='YES'" fxFlex="33" formControlName="hasQuiz">Quiz</mat-checkbox>
+             <mat-checkbox  fxFlex="33" formControlName="published">Published</mat-checkbox>
+             <mat-checkbox  fxFlex="33" formControlName="visibility">Restricted</mat-checkbox>
+           </div>
+           <div fxLayout ="row"
+                fxLayoutAlign="end end">
+              <button type="submit" *ngIf="chapter.id != null" >Update</button>
+              <button *ngIf="chapter.id == null" >Save</button>
+           </div>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+
+  </mat-card-content>
+</mat-card>

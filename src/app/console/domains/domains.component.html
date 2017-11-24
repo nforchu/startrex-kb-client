@@ -1,0 +1,33 @@
+<div class="" fxFlex="1 1 100%">
+	<div fxLayout="column"
+       fxLayoutGap="5%"
+	     class="contentResp">
+			 <div fxLayout="row"
+	          fxLayout.lt-sm="column"
+	          fxLayoutGap.lt-sm="2%">
+	        <div fxFlex class="page-title">My domains <a>New</a></div>
+	        <div fxLayoutAlign="end end"
+	             fxLayoutGap="5%">
+	             <!--button>Course</button>
+	             <button>Content</button>
+	             <button>Sessions</button>
+	             <button>Courses</button-->
+	        </div>
+	     </div>
+			 <div fxLayout="row" *ngFor="let domain of domains" class="">
+		       <div class="blocks logo">logo</div>
+		       <div fxLayout="column" class="content">
+		           <a class="blocks" [routerLink]="['/dashboard/courses']">{{domain.name}}</a>
+               <a class="blocks" [routerLink]="['/dashboard/courses']">View</a>
+		           <p>{{domain.description}}</p>
+		           <!--a fxLayoutAlign="end end" class="blocks" [routerLink]="['/course/', course.id, course.title]">Courses</a-->
+							  <div fxLayout="row" fxLayoutAlign="end end"> 
+								  <a  class="blocks" [routerLink]="['/domain/', domain.id, domain.name]">Details</a>
+									<a  class="blocks" [routerLink]="['/domain/', domain.id, domain.name, 'courses']">Courses</a>
+								</div>
+					</div>
+		   </div>
+
+	</div>
+   <router-outlet></router-outlet>
+</div>

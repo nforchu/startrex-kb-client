@@ -1,0 +1,47 @@
+<mat-card class="demo-card demo-basic">
+  <mat-card-content>
+
+      <form *ngIf="video != null" fxLayout="column"
+            fxFlexFill
+            fxLayoutAlign="start stretch"
+            fxLayoutGap="10px"
+            [formGroup]="form" (ngSubmit) = "onFormSubmit(form.value)">
+        <input type="hidden"  formControlName="id">
+        <div fxLayout="column">
+           <div fxLayout="row"
+                fxLayoutGap="20px">
+                <mat-form-field fxFlex="1 2 70">
+                  <input matInput required placeholder="Video Title" formControlName="title">
+                </mat-form-field>
+               <mat-form-field fxFlex="1 2 15">
+                 <mat-select placeholder="Provider" formControlName="provider" (change)="onVideoLinkChange()">
+                   <mat-option *ngFor="let provider of videoProviders" [value]="provider">{{ provider }}</mat-option>
+                 </mat-select>
+               </mat-form-field>
+               <mat-form-field fxFlex="1 2 15">
+                 <input type="number" matInput required placeholder="Weight" formControlName="weight">
+               </mat-form-field>
+           </div>
+           <mat-form-field fxFlexFill>
+             <input type="text" matInput required (change)="onVideoLinkChange()" placeholder="Web link" formControlName="link">
+           </mat-form-field>
+           <div id="video-display">
+
+           </div>
+           <div fxLayout ="row" fxLayoutWrap fxLayoutGap="10">
+             <mat-checkbox  fxFlex="33" formControlName="published">Published</mat-checkbox>
+             <mat-checkbox  fxFlex="33" formControlName="visibility">Restricted</mat-checkbox>
+           </div>
+           <div fxLayout ="row"
+                fxLayoutAlign="end end">
+
+                <button type="submit" *ngIf="(video.id == null || video.id==0); else updateButoton" >Save</button>
+                <ng-template #updateButoton>
+                    <button >Update</button>
+                </ng-template>
+           </div>
+         </div>
+      </form>
+
+  </mat-card-content>
+</mat-card>

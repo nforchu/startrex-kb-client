@@ -1,0 +1,182 @@
+<mat-card class="demo-card demo-basic">
+    <mat-card-content>
+      <mat-tab-group>
+      <mat-tab *ngIf="question && question.id !== null" label="View"><!--question view tap-->
+        <p>
+            {{question.question}}
+        </p>
+
+        <p *ngFor="let component of question.components">
+          {{component.value}}
+        </p>
+
+        <div>
+          <h4>Responses</h4>
+
+          <p *ngFor="let answer of question.answers">
+            {{answer.value}}
+          </p>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="{{operation}}"><!--question form tap-->
+        <form *ngIf="question != null" fxLayout="column"
+              fxLayoutAlign="start stretch"
+              fxLayoutGap="40px"
+              [formGroup]="form" (ngSubmit) = "onFormSubmit(form.value)">
+
+           <input type="text"  formControlName="id">
+
+           <div fxLayout="row"
+                fxLayoutGap="10px">
+                 <mat-form-field fxFlex="1 2 20">
+                   <mat-select placeholder="Difficulty" formControlName="difficulty" (change)="adjustResponseValueField()">
+                     <mat-option value="easy">Easy</mat-option>
+                     <mat-option value="intermediate">Intermediate</mat-option>
+                     <mat-option value="difficult">Difficult</mat-option>
+                   </mat-select>
+                 </mat-form-field>
+
+                 <mat-form-field fxFlex="1 2 20">
+                   <mat-select placeholder="Visibility" formControlName="visibility" (change)="adjustResponseValueField()">
+                     <mat-option value="QUIZ">Quiz</mat-option>
+                     <mat-option value="ASSESSMENT">Assessment</mat-option>
+                   </mat-select>
+                 </mat-form-field>
+
+                 <mat-form-field fxFlex="1 2 20">
+                   <mat-select placeholder="Type" formControlName="type" (change)="adjustResponseValueField()">
+                     <mat-option value="MCQ">MCQ</mat-option>
+                     <mat-option value="STRUCTURAL">Structural</mat-option>
+                     <mat-option value="ESSAY">Essay</mat-option>
+                   </mat-select>
+                 </mat-form-field>
+
+                 <mat-form-field fxFlex="1 2 20" *ngIf="form.controls.type.value=='MCQ'">
+                   <mat-select placeholder="Response count" formControlName="responseCount" (change)="adjustResponseSelectionType()">
+                     <mat-option value="single">Single</mat-option>
+                     <mat-option value="multiple">Multiple</mat-option>
+                     <mat-option value="polar">Polar</mat-option>
+                   </mat-select>
+                 </mat-form-field>
+
+                 <mat-form-field fxFlex="1 2 20">
+                   <input type="number" matInput required placeholder="Total score" formControlName="totalScore">
+                 </mat-form-field>
+           </div>
+           <mat-form-field fxFlexFill>
+               <textarea  matInput
+                         matTextareaAutosize
+                         matAutosizeMaxRows="10"
+                         required placeholder="Question" formControlName="question"></textarea>
+           </mat-form-field>
+           <div class="component-create-box"
+                fxLayout="column"
+                formArrayName="components"
+                *ngFor="let qComponent of form.get('components').controls; let i = index;">
+
+              <div [formGroupName]="i">
+
+                  <div  class="component-create-controls" fxFlexFill>
+                      <input type="number" formControlName="weight">
+                      <select (change)="switchComponentType(i)" formControlName="contentType">
+                          <option *ngFor="let type of componentTypes" [value]="type">{{ type }}</option>
+                      </select>
+                      <span (click)="removeComponent(i)"> Remove | {{qComponent.controls.contentType.value}}</span>
+                      <span (click)="addComponentBefore(i)"> | Add Before</span>
+                  </div>
+                  <ng-container [ngSwitch]="qComponent.controls.contentType.value">
+                  <mat-form-field *ngSwitchCase="'TEXT'"
+                                  fxFlexFill>
+                      <textarea  matInput
+                                matTextareaAutosize
+                                matAutosizeMaxRows="10"
+                                required placeholder="Text" formControlName="value"></textarea>
+                  </mat-form-field>
+
+                  <mat-form-field *ngSwitchCase="'CODE'"
+                                  fxFlexFill>
+                      <textarea  matInput
+                                matTextareaAutosize
+                                matAutosizeMaxRows="10"
+                                required placeholder="Program" formControlName="value"></textarea>
+                  </mat-form-field>
+
+                  <div *ngIf="qComponent.controls.contentType.value=='DOCUMENT' || qComponent.controls.contentType.value=='IAMGE'">
+                      <input type="file" placeholder="Image" formControlName="value">
+                  </div>
+                  </ng-container>
+              </div>
+          </div>
+
+          <div fxLayout="column">
+
+            <div fxLayout="row"
+                 fxLayoutGap="20px"
+                 *ngIf="form.controls.type.value=='MCQ'">
+              <div fxFlex="1 2 70">Response <span *ngIf="form.controls.responseCount.value!='polar'" (click)="addResponse()">Add response</span></div>
+              <div fxFlex="1 2 10">Score</div>
+              <div fxFlex="1 2 10">Correct</div>
+            </div>
+            <div fxLayout="column"
+                 formArrayName="responses"
+                 *ngFor="let qResponse of form.get('responses').controls; let i = index;">
+              <div fxFlexFill
+                   fxLayoutGap="20px"
+                   [formGroupName]="i">
+                   <div fxLayout="row" fxFlexFill
+                        fxLayoutGap="20px"
+                        *ngIf="form.controls.type.value=='MCQ';else structuralResponseField">
+                        <mat-form-field fxFlex="1 2 70">
+                          <textarea  matInput
+                                    matTextareaAutosize
+                                    matAutosizeMaxRows="5"
+                                    required placeholder=" " formControlName="answer"></textarea>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="1 2 10">
+                          <input type="number" matInput required placeholder=" " formControlName="score"/>
+                        </mat-form-field>
+                        <div *ngIf="form.controls.responseCount.value=='single' || form.controls.responseCount.value=='polar'" fxFlex="1 2 10">
+                          <input type="radio" name="correct" value="YES" formControlName="correct" (click)="resetCorrectAnser(i)"/>
+                        </div>
+                        <mat-checkbox *ngIf="form.controls.responseCount.value=='multiple'" fxFlex="1 2 10"></mat-checkbox>
+                        <div *ngIf="form.get('responses').controls.length > 2" fxFlex="1 2 2" (click)="removeResponse(i)">X</div>
+                    </div>
+
+                    <div fxLayout="column" fxFelxFill>
+                      <ng-template #structuralResponseField style="width:100%">
+                      <mat-form-field fxFlex="1 2 90">
+                        <textarea  matInput
+                                  matTextareaAutosize
+                                  matAutosizeMaxRows="20"
+                                  required placeholder="Response" formControlName="answer"></textarea>
+                      </mat-form-field>
+                      </ng-template>
+                    </div>
+              </div>
+            </div>
+          </div>
+
+           <!--mat-form-field fxFlexFill>
+             <input type="text" matInput required (change)="onVideoLinkChange()" placeholder="Web link" formControlName="link">
+           </mat-form-field>
+           <div id="video-display"-->
+
+           <div fxLayout ="row"
+                fxLayoutAlign="end end">
+              <select (change)="addComponent()" id="compoent-builder" formControlName="componentAddType">
+                  <option value=null>Add Component</option>
+                  <option *ngFor="let type of componentTypes" [value]="type">{{ type }}</option>
+              </select>
+              <button type="submit" *ngIf="(question.id == null || question.id==0); else updateButoton" >Save</button>
+              <ng-template #updateButoton>
+                  <button >Update</button>
+              </ng-template>
+           </div>
+        </form>
+      </mat-tab>
+      </mat-tab-group>
+
+
+    </mat-card-content>
+</mat-card>

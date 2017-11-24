@@ -1,20 +1,95 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<mat-sidenav-container class="example-container">
+    <mat-sidenav  #sidenav mode="side" position="end" class="sidenav" id="main-side-nav">
+        <div fxLayout="column">
+            <button type="button" mat-button (click)="sidenav.close()">
+             close
+            </button>
+            <button mat-button [matMenuTriggerFor]="contentAdministration">Content Administration</button>
 
+            <mat-menu #contentAdministration="matMenu">
+              <button mat-menu-item>New course</button>
+              <button mat-menu-item>All Courses</button>
+            </mat-menu>
+
+            <button mat-button [matMenuTriggerFor]="myDomain">My domain</button>
+
+            <mat-menu #myDomain="matMenu">
+              <button mat-menu-item>View</button>
+              <button mat-menu-item>Features</button>
+              <button mat-menu-item>Subscribers</button>
+            </mat-menu>
+
+            <button mat-button [matMenuTriggerFor]="messaging">My domain</button>
+
+            <mat-menu #messaging="matMenu">
+              <button mat-menu-item>Broadcast</button>
+              <button mat-menu-item>Multicase</button>
+              <button mat-menu-item>Requests</button>
+            </mat-menu>
+
+            <button mat-button [matMenuTriggerFor]="siteAdministration">My domain</button>
+
+            <mat-menu #siteAdministration="matMenu">
+              <button mat-menu-item>Cool stuff</button>
+              <button mat-menu-item [routerLink]="['/dashboard/courses']" >Dashboard</button>
+            </mat-menu>
+
+            <button mat-button  [routerLink]="['/']" >Products</button>
+            <button mat-button  [routerLink]="['/dashboard/courses']" >Dashboard</button>
+
+        </div>
+      </mat-sidenav>
+
+      <md-toolbar color="primary" id="header">
+        <div fxLayout="row" fxLayoutAlign="start center" class="content">
+          <div class="blocks" fxFlex = "60%"><a [routerLink]="['/dashboard/homepage']"> logo</a></div>
+          <div *ngIf="isUserLoggedIn()" class="blocks" fxLayout="row"
+               fxFlex = "40%"
+               fxLayoutAlign="end end">
+
+              <span  (click)="logout()">Logout</span>
+              <mat-icon (click)="sidenav.open()">menu</mat-icon>
+         </div>
+        </div>
+        <!--div *ngIf="isUserLoggedIn()"
+              fxLayout="row"
+              fxShow.gt-sm class="main-menu">
+
+        </div--->
+      </md-toolbar>
+
+      <div class="header-spacer">
+      </div>
+
+      <st-display></st-display>
+  </mat-sidenav-container>
+<!--div class="container">
+	<div fxLayout="row" fxLayoutAlign="space-around center" class="content">
+		<div class="blocks">1</div>
+		<div class="blocks">2</div>
+		<div class="blocks">3</div>
+	</div>
+</div>
+<div class="container">
+	<div fxLayout="row" fxLayoutAlign="begin center" class="content">
+		<div class="blocks">1</div>
+		<div class="blocks">2</div>
+		<div class="blocks">3</div>
+	</div>
+</div>
+<div class="container">
+	<div fxLayout="row"
+	     fxLayout.xs="column"
+	     fxLayout.sm="column"
+	     fxFlex class="contentResp">
+		<div class="blocks" fxFlex> I'm above on mobile, and to the left on larger devices.   </div>
+		<div class="blocks" fxFlex> I'm below on mobile, and to the right on larger devices.  </div>
+	</div>
+</div>
+<div class="container">
+	<div fxLayout="row" fxLayoutAlign="space-around center" class="content">
+		<div class="blocks">1</div>
+		<div class="blocks">2</div>
+		<div class="blocks">3</div>
+	</div>
+</div-->

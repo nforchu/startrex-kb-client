@@ -1,0 +1,41 @@
+<div fxLayout="column"
+     fxLayout.lt-sm="column"
+     fxLayoutGap="2%"
+     fxLayoutAlign="">
+     <div fxLayout="row" *ngIf="course"
+          fxLayout.lt-sm="column"
+          fxLayoutGap.lt-sm="2%">
+        <div fxFlex class="page-title" *ngIf="course.id != null">{{course.title}}</div>
+        <div fxFlex class="page-title" *ngIf="course.id == null">Create new course</div>
+        <div *ngIf="course.id != null" fxLayoutAlign="end end"
+             fxLayoutGap="5%">
+             <a [routerLink]="['/course/', course.id, course.title]">Course</a>
+             <a [routerLink]="['/course/', course.id, 'chapter']">Content</a>
+             <a [routerLink]="['/course/', course.id, course.title, 'content', 'video', 'v']">Subs</a>
+             <a>Sessions</a>
+             <a>Courses</a>
+        </div>
+     </div>
+     <div fxLayout="row"
+          fxLayoutGap="3%"
+          fxLayout.lt-sm="column"
+          fxLayoutGap.lt-sm="3%">
+         <!--div fxLayout="row" fxFlex="1 2 20%"
+              fxFlexOrder="1"
+              fxFlexOrder.lt-sm="3">
+          left
+        </div-->
+
+         <div fxLayout="row" fxFlex
+              fxFlexOrder="2"
+              fxFlexOrder.lt-sm="1">
+           <router-outlet></router-outlet>
+         </div>
+
+         <!--div fxLayout="row" fxFlex="1 2 25%"
+               fxFlexOrder="3"
+               fxFlexOrder.lt-sm="2">
+           right
+         </div-->
+     </div>
+</div>

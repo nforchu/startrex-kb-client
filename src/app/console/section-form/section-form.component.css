@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.component-create-box{
+  border: 1px solid gray;
+}
+
+.component-create-controls{
+  height: 30px;
+  background: tan;
+}

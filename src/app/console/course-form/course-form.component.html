@@ -1,0 +1,77 @@
+<mat-card class="demo-card demo-basic">
+  <!--mat-toolbar color="primary" class="form-heading">Login</mat-toolbar-->
+  <mat-card-content>
+
+    <mat-tab-group>
+      <mat-tab *ngIf="course && course.id !== null" label="View"><!--course edit form tab-->
+        <div fxLayout="column"
+             fxLayoutGap="10px">
+            <h3>{{course.title}}</h3>
+
+            <p>
+                {{course.description}}
+            </p>
+
+            <p>
+                {{course.audience}}
+            </p>
+
+            <p>
+                {{course.prerequisite}}
+            </p>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="{{operation}}"><!--course edit form tab-->
+        <form *ngIf="course" fxLayout="column"
+              fxLayoutAlign="start stretch"
+              fxLayoutGap="10px"
+              [formGroup]="form" (ngSubmit) = "onFormSubmit(form.value)">
+              <input type="text" formControlName="id">
+              <mat-form-field fxFlexFill>
+                <mat-select placeholder="Category" formControlName="category">
+                  <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
+                </mat-select>
+             </mat-form-field>
+
+           <mat-form-field fxFlexFill>
+             <input matInput required placeholder="Title" formControlName="title">
+           </mat-form-field>
+           <mat-form-field fxFlexFill>
+             <textarea matInput
+                       matTextareaAutosize
+                       matAutosizeMaxRows="10"
+                       required placeholder="Description" formControlName="description"></textarea>
+           </mat-form-field>
+           <mat-form-field fxFlexFill>
+             <textarea matInput id="course-prerequisite"
+                       matTextareaAutosize
+                       matAutosizeMaxRows="5"
+                       placeholder="Prerequisite" formControlName="prerequisite"></textarea>
+           </mat-form-field>
+           <mat-form-field fxFlexFill>
+             <textarea matInput
+                       matTextareaAutosize
+                       matAutosizeMaxRows="5"
+                       placeholder="Adience" formControlName="audience"></textarea>
+           </mat-form-field>
+           <div fxLayout ="row" fxLayoutWrap fxLayoutGap="10">
+              <mat-checkbox  fxFlex="33" formControlName="hasText">Notes</mat-checkbox>
+              <mat-checkbox  fxFlex="33" formControlName="hasVideo">Video</mat-checkbox>
+              <mat-checkbox  fxFlex="33" formControlName="hasQuiz">Quiz</mat-checkbox>
+              <mat-checkbox  fxFlex="33" formControlName="published">Published</mat-checkbox>
+              <mat-checkbox  fxFlex="33" formControlName="visibility">Restricted</mat-checkbox>
+           </div>
+           <div fxLayout ="row"
+                fxLayoutAlign="end end">
+              <button *ngIf="course.id != null">Update</button>
+              <button *ngIf="course.id == null">Save</button>
+           </div>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+
+
+
+  </mat-card-content>
+</mat-card>

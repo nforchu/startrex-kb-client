@@ -1,0 +1,39 @@
+<div fxLayout="column"
+     fxLayout.lt-sm="column"
+     fxLayoutGap="1" class="dood">
+     <div fxLayout="row"
+          fxLayout.lt-sm="column"
+          fxLayoutGap.lt-sm="2%">
+        <div fxFlex class="page-title"></div>
+        <div fxLayoutAlign="end end">
+        </div>
+     </div>
+     <div fxLayout="row"
+          fxLayoutGap="3%"
+          fxLayout.lt-sm="column"
+          fxLayoutGap.lt-sm="3%">
+          <div fxLayout="row" fxFlex="1 2 75%"
+              fxFlexOrder="2"
+              fxFlexOffset="20%"
+              fxFlexOrder.lt-sm="1"
+              fxFlexOffset.lt-sm="1%">
+           <router-outlet></router-outlet>
+         </div>
+
+         <div *ngIf="chapters != null" fxLayout="column" fxFlex="1 2 25%"
+               fxFlexOrder="3"
+               fxFlexOrder.lt-sm="2">
+           <div *ngIf="course" fxFlex class="page-title">Chapter <a [routerLink]="['/course/', course.id, 'chapter', 'new']">+</a></div>
+           <div *ngIf="course" fxLayout="column"
+                fxFlexOffset="20px"
+                fxLayoutGap="20px">
+              <div *ngFor="let chapter of chapters">
+               <a [routerLink]="['/course/', course.id, 'chapter', chapter[0], chapter[1]]"> {{ chapter[1] }} </a>
+               <a>N</a>
+               <a>V</a>
+               <a>Q</a>
+              </div>
+            </div>
+         </div>
+     </div>
+</div>

@@ -1,0 +1,23 @@
+<mat-card class="demo-card demo-basic">
+  <mat-card-content>
+    <div fxLayout="column"
+         fxLayoutAlign="center center">
+        <form fxLayout="column"
+              fxFlex="1 2 30"
+              fxLayoutGap="20px"
+              [formGroup]="form" (ngSubmit) = "onFormSubmit(form.value)">
+            <mat-toolbar color="primary">User Authentication</mat-toolbar>
+            <div>
+              {{invalidCredentials}}
+            </div>
+           <mat-form-field>
+             <input matInput required placeholder="Login ID" formControlName="username">
+           </mat-form-field>
+           <mat-form-field>
+             <input type="password" matInput required placeholder="Password" formControlName="password">
+           </mat-form-field>
+           <input type="submit" value="Login"/>
+         </form>
+      </div>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,36 @@
+<!--div fxLayout="column" fxLayoutAlign="start center" class="content" *ngFor="let course of courses">
+  <a class="" [routerLink]="['/dashboard/courses/', course.id, 'chapter', 'first']">
+      {{course.title}}
+  </a>
+</div-->
+<div class="courses-list" fxFlex="1 1 100%">
+	<div fxLayout="column"
+       fxLayoutGap="5%"
+	     class="contentResp">
+			 <div fxLayout="row"
+	          fxLayout.lt-sm="column"
+	          fxLayoutGap.lt-sm="2%">
+	        <div fxFlex class="page-title">Courses <a [routerLink]="['/course/new']">New</a></div>
+	        <div fxLayoutAlign="end end"
+	             fxLayoutGap="5%">
+							 <a fxLayoutAlign="end end" class="blocks" [routerLink]="['/dashboard/domains']">My domains</a>
+	             <!--button>Course</button>
+	             <button>Content</button>
+	             <button>Sessions</button>
+	             <button>Courses</button-->
+	        </div>
+	     </div>
+			 <div fxLayout="row" *ngFor="let course of courses" class="course">
+		       <div class="blocks logo">logo</div>
+		       <div fxLayout="column" class="content">
+		           <a class="blocks" [routerLink]="['/course/', course.id, course.title]">{{course.title}}</a>
+		           <p>{{course.description}}</p>
+		           <a fxLayoutAlign="end end" class="blocks" [routerLink]="['/course/', course.id, course.title]">Details</a>
+		      </div>
+		   </div>
+			 <div ng-repeat="n in [] | range:10">
+				 do something
+			 </div>
+	</div>
+   <router-outlet></router-outlet>
+</div>
